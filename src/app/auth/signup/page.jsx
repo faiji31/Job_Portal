@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Envelope, Key, Person, Eye, EyeSlash } from "@gravity-ui/icons";
-import { authClient, signUp } from "@/lib/auth-client"; // Better Auth client er path adjust koro
+import { authClient, signUp } from "@/lib/auth-client"; 
+import {Description, Label, Radio, RadioGroup} from "@heroui/react";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 bg-white py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-blue-900";
@@ -23,6 +24,7 @@ export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const[role,setRole] = useState('seeker')
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -35,6 +37,7 @@ export default function SignUpPage() {
         email,
         password,
         name,
+        role
       });
 
       if (authError) {
@@ -154,7 +157,32 @@ export default function SignUpPage() {
           >
             {loading ? "Creating account..." : "Sign Up"}
           </button>
+             <div className="flex flex-col gap-4">
+      <Label>Choose Registration Role</Label>
+      <RadioGroup defaultValue="seeker" name="role" orientation="horizontal" onChange={value=>setRole(value)}>
+        <Radio value="seeker">
+          <Radio.Content>
+            <Radio.Control>
+              <Radio.Indicator />
+            </Radio.Control>
+           Job Seeker
+          </Radio.Content>
+         
+        </Radio>
+        <Radio value="recuriter">
+          <Radio.Content>
+            <Radio.Control>
+              <Radio.Indicator />
+            </Radio.Control>
+           Recuriter
+          </Radio.Content>
+         
+        </Radio>
+       
+      </RadioGroup>
+    </div>
         </form>
+      
 
         <div className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{" "}
